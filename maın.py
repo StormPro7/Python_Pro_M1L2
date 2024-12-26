@@ -1,14 +1,26 @@
-import random
+import discord
+from discord.ext import commands
 
-karakterler = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+intents = discord.Intents.default()
+intents.message_content = True
 
-sifre_uzunlugu = int(input("Sifreniz kac karakter uzunlugunda olsun: "))
+bot = commands.Bot(command_prefix='$', intents=intents)
 
-sifre = ""
+@bot.event
+async def on_ready():
+    print(f'{bot.user} olarak giriş yaptık')
 
-for i in range(sifre_uzunlugu):
-    sifre = sifre + random.choice(karakterler)
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Merhaba! Ben {bot.user}, bir Discord sohbet botuyum!')
 
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
 
+@bot.command()
+async def add(ctx, left: int, right: int):
+    """Adds two numbers together."""
+    await ctx.send(left + right)
 
-    print(sifre)
+bot.run("token")
